@@ -1,12 +1,12 @@
 package com.shell.hadoop.spark.sql;
 
-import org.apache.spark.api.java.function.Function;
+import static org.apache.spark.sql.functions.col;
+
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import static org.apache.spark.sql.functions.*;
 
 public class JdbcToMysqlExample {
 	public static void main(String[] args) {

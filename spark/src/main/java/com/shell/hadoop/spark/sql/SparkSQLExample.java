@@ -45,20 +45,89 @@ public class SparkSQLExample {
 
 	}
 	
+	/**
+	 * 从json文件读取创建DataFrame
+	 * @param spark
+	 */
 	private static void runBasicDataFrameExample(SparkSession spark) {
+		/**
+		 * json文件内容:
+		 * {"name":"Micheal","age":23}
+		 * ...
+		 * json文件的格式要求: 必须是每一行一个对象(per object a line)
+		 */
 		Dataset<Row> df = spark.read().json("examples/src/main/resources/people.json");
-		df.show();
-		df.printSchema();
-		df.select("name").show();
-		df.select(col("name"), col("age").plus(1)).show();
-		df.filter(col("age").gt(21)).show();
-		df.groupBy("age").count().show();
-		df.createOrReplaceTempView("people");
 		
+		/**
+		 * 输出打印格式为:
+		 *  +-----------+-----+
+		 *	|       name|  age|
+		 *	+-----------+-----+
+		 *	|    Micheal|   12|
+		 *	+-----------+-----+
+		 */
+		df.show();
+		
+		/**
+		 * root
+		 * |-- age: long(nullable=true)
+		 * |-- name:string(nullable=true)
+		 */
+		df.printSchema();
+		
+		/**
+		 * +-------+
+		 * |   name|
+		 * +-------+
+		 * |Micheal|
+		 * +-------+
+		 */
+		df.select("name").show();
+		
+		/**
+		 * +-----------+-----+
+		 * |       name|  age|
+		 * +-----------+-----+
+		 * |    Micheal|   13|
+		 * +-----------+-----+
+		 */
+		df.select(col("name"), col("age").plus(1)).show();
+		
+		/**
+		 * +-----------+-----+
+		 * |       name|  age|
+		 * +-----------+-----+
+		 */
+		df.filter(col("age").gt(21)).show();
+		
+		/**
+		 * +-----------+-----+
+		 * |        age|count|
+		 * +-----------+-----+
+		 * |         12|    1|
+		 * +-----------+-----+
+		 */
+		df.groupBy("age").count().show();
+		
+		// 如果要执行sql语法, 那么必须要先注册一个视图
+		df.createOrReplaceTempView("people");
 		Dataset<Row> sqlDF = spark.sql("select * from people");
+		
+		/**
+		 * 输出打印格式为:
+		 *  +-----------+-----+
+		 *	|       name|  age|
+		 *	+-----------+-----+
+		 *	|    Micheal|   12|
+		 *	+-----------+-----+
+		 */
 		sqlDF.show();
 	}
 	
+	/**
+	 * 编程创建DateFrame
+	 * @param spark
+	 */
 	private static void runDatasetCreationExample(SparkSession spark) {
 		Person person = new Person();
 		person.setName("Andy");
@@ -85,6 +154,10 @@ public class SparkSQLExample {
 		peopleDS.show();
 	}
 	
+	/**
+	 * 从RDD创建DataFrame
+	 * @param spark
+	 */
 	private static void runInferSchemaExample(SparkSession spark) {
 		JavaRDD<Person> peopleRDD = spark.read().textFile("examples/src/main/resources/people.txt").javaRDD().map(new Function<String, Person>() {
 

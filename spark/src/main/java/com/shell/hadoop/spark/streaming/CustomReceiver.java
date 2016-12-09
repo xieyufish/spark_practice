@@ -84,6 +84,7 @@ public class CustomReceiver extends Receiver<String> {
 		
 //		StreamingExamples.setStreamingLogLevels();
 		SparkConf sparkConf = new SparkConf().setAppName("CustomReceiver");
+		@SuppressWarnings("resource")
 		JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, new Duration(1000));
 		
 		JavaReceiverInputDStream<String> lines = ssc.receiverStream(new CustomReceiver(args[0], Integer.parseInt(args[1])));

@@ -24,6 +24,7 @@ public class QueueStream {
 	
 	public static void main(String[] args) throws InterruptedException {
 		SparkConf sparkConf = new SparkConf().setAppName("QueueStream");
+		@SuppressWarnings("resource")
 		JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, new Duration(1000));
 		
 		Queue<JavaRDD<Integer>> rddQueue = new LinkedList<>();

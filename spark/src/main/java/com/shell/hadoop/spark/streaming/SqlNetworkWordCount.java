@@ -11,7 +11,6 @@ import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.VoidFunction2;
 import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.streaming.Durations;
@@ -30,6 +29,7 @@ public class SqlNetworkWordCount {
 		}
 		
 		SparkConf sparkConf = new SparkConf().setAppName("SqlNetWordCount");
+		@SuppressWarnings("resource")
 		JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(1));
 		
 		JavaReceiverInputDStream<String> lines = ssc.socketTextStream(args[0], Integer.parseInt(args[1]), StorageLevels.MEMORY_AND_DISK_SER_2);

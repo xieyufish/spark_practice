@@ -49,7 +49,7 @@ public class WordCount {
 				return v1 + v2;
 			}
 		});
-		
+
 		List<Tuple2<String, Integer>> output = counts.collect();
 		for (Tuple2<String, Integer> tuple : output) {
 			System.out.println(tuple._1() + ":" + tuple._2());

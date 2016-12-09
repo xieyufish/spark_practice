@@ -33,6 +33,7 @@ public class StatefulNetworkWordCount {
 		}
 		
 		SparkConf sparkConf = new SparkConf().setAppName("StatefulNetworkWordCount");
+		@SuppressWarnings("resource")
 		JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(1));
 		ssc.checkpoint(".");
 		

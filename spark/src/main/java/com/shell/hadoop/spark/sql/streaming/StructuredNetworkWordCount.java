@@ -34,9 +34,6 @@ public class StructuredNetworkWordCount {
 			
 		}, Encoders.STRING());
 		
-		StreamingQuery queryAppend = words.writeStream().outputMode("append").format("console").start();
-		queryAppend.awaitTermination();
-		
 		Dataset<Row> wordCounts = words.groupBy("value").count();
 		
 		// 这个没有输出

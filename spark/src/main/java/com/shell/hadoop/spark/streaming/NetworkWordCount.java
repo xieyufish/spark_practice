@@ -27,6 +27,7 @@ public class NetworkWordCount {
 		}
 		
 		SparkConf sparkConf = new SparkConf().setAppName("NetworkWordCount");
+		@SuppressWarnings("resource")
 		JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, new Duration(1000));
 		
 		JavaReceiverInputDStream<String> lines = ssc.socketTextStream(args[0], Integer.parseInt(args[1]), StorageLevel.MEMORY_AND_DISK_SER());

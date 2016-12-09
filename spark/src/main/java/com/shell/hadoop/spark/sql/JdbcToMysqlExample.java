@@ -26,6 +26,9 @@ public class JdbcToMysqlExample {
 //		Dataset<Row> booksDF = sparkSession.sql("select * from books where id < 100");
 //		booksDF.show();
 		
+		jdbcDF.show();
+		
+		
 		jdbcDF.groupBy("category_id").count().show();
 		
 		Dataset<Row> filterDF = jdbcDF.filter(col("id").lt(100));
